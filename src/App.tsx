@@ -23,6 +23,10 @@ const App = () => {
 
   const columnHelper = createColumnHelper<User>()
   const columns = useMemo(() => [
+    columnHelper.accessor("id", {
+      id: "id",
+      header: "Id"
+    }),
     columnHelper.accessor("firstName", {
       header: ({ header }) => (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: 'stretch' }}>
@@ -36,8 +40,44 @@ const App = () => {
     columnHelper.accessor("lastName", {
       header: "Last Name"
     }),
-    columnHelper.accessor("address.country", {
-      header: "Country"
+    columnHelper.accessor("username", {
+      header: "Username"
+    }),
+    columnHelper.accessor("email", {
+      header: "Email"
+    }),
+    columnHelper.accessor("phone", {
+      header: "Phone Number"
+    }),
+    columnHelper.accessor("gender", {
+      header: "Gender"
+    }),
+    columnHelper.accessor("age", {
+      header: "Age"
+    }),
+    columnHelper.accessor("birthDate", {
+      header: "Birth Date"
+    }),
+    columnHelper.accessor("bloodGroup", {
+      header: "Blood Group"
+    }),
+    columnHelper.accessor("height", {
+      header: "Height"
+    }),
+    columnHelper.accessor("weight", {
+      header: "Weight"
+    }),
+    columnHelper.accessor("eyeColor", {
+      header: "Eye Color"
+    }),
+    columnHelper.accessor("hair.color", {
+      header: "Hair Color"
+    }),
+    columnHelper.accessor("hair.type", {
+      header: "Hair Type"
+    }),
+    columnHelper.accessor("role", {
+      header: "Role"
     })
   ], [columnHelper])
 
@@ -46,6 +86,9 @@ const App = () => {
       columns={columns}
       data={rows}
       resizing={{ mode: "onChange" }}
+      columnPinning={{
+        left: ["id"]
+      }}
     />
   )
 }
