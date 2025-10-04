@@ -35,7 +35,8 @@ const App = () => {
         </div>
       ),
       minSize: 100,
-      maxSize: 300
+      maxSize: 300,
+      id: "firstName"
     }),
     columnHelper.accessor("lastName", {
       header: "Last Name"
@@ -44,10 +45,12 @@ const App = () => {
       header: "Username"
     }),
     columnHelper.accessor("email", {
-      header: "Email"
+      header: "Email",
+      id: "email"
     }),
     columnHelper.accessor("phone", {
-      header: "Phone Number"
+      header: "Phone Number",
+      id: "phone"
     }),
     columnHelper.accessor("gender", {
       header: "Gender"
@@ -87,7 +90,8 @@ const App = () => {
       data={rows}
       resizing={{ mode: "onChange" }}
       columnPinning={{
-        left: ["id"]
+        left: ["id", "firstName"],
+        right: ["email", "phone"]
       }}
     />
   )

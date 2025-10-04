@@ -21,6 +21,21 @@ const Table = <TData,>({
     }
   })
 
+  const pinnedColumnsLeft = table.getAllColumns().filter(column => column.getIsPinned() === "left")
+  const pinnedColumnsRight = table.getAllColumns().filter(column => column.getIsPinned() === "right")
+  const columnOffsetMapLeft: Record<string, { width: number, offset: number }> = {}
+  const columnOffsetMapRight: Record<string, { width: number, offset: number }> = {}
+  pinnedColumnsLeft.forEach(column => {
+    let sumOfAllPreviousValues = 0
+    Object.values(columnOffsetMapLeft).forEach(val => sumOfAllPreviousValues += val.width)
+    columnOffsetMapLeft[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
+  })
+  pinnedColumnsRight.forEach(column => {
+    let sumOfAllPreviousValues = 0
+    Object.values(columnOffsetMapRight).forEach(val => sumOfAllPreviousValues += val.width)
+    columnOffsetMapRight[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
+  })
+
   return (
     <div style={{ maxWidth: "100%", overflow: 'auto', position: "relative" }}>
       <table style={{ minWidth: "max-content" }}>
@@ -36,7 +51,8 @@ const Table = <TData,>({
                     style={{
                       width: header.getSize(),
                       position: isPinnedColumn ? "sticky" : "static",
-                      left: 0,
+                      left: isPinnedColumn === "left" ? columnOffsetMapLeft[header.column.id].offset : undefined,
+                      right: isPinnedColumn === "right" ? columnOffsetMapRight[header.column.id].offset : undefined,
                       zIndex: 2,
                       backgroundColor: "black"
                     }}
@@ -59,7 +75,8 @@ const Table = <TData,>({
                     key={cell.id}
                     style={{
                       position: isPinnedColumn ? "sticky" : "static",
-                      left: 0,
+                      left: isPinnedColumn === "left" ? columnOffsetMapLeft[cell.column.id].offset : undefined,
+                      right: isPinnedColumn === "right" ? columnOffsetMapRight[cell.column.id].offset : undefined,
                       zIndex: 2,
                       backgroundColor: "black"
                     }}
