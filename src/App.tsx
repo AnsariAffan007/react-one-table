@@ -3,6 +3,7 @@ import type { User } from "./types"
 import { createColumnHelper } from "@tanstack/react-table"
 import Table from "./components/Table"
 import useColumnPin from "./hooks/useColumnPin"
+import styles from "./styles.module.css"
 
 const App = () => {
 
@@ -111,6 +112,11 @@ const App = () => {
             right: ["email", "phone"]
           },
           state: columnPins
+        }}
+        componentProps={{
+          tableHeaderCell: () => ({
+            className: styles["table-head-row"]
+          })
         }}
       />
     </div>

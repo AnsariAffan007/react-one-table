@@ -7,7 +7,9 @@ const Table = <TData,>({
   data,
   columns,
   resizing,
-  columnPinning
+  columnPinning,
+  components,
+  componentProps
 }: TableTypes<TData>) => {
 
   const table = useReactTable<TData>({
@@ -44,17 +46,24 @@ const Table = <TData,>({
     [table, columnPinning, columnSizes]
   )
 
+  const Table = components?.Table || "table"
+  const TableHead = components?.TableHead || "thead"
+  const TableBody = components?.TableBody || "tbody"
+  const TableRow = components?.TableRow || "tr"
+  const TableHeaderCell = components?.TableHeaderCell || "th"
+  const TableBodyCell = components?.TableBodyCell || "td"
+
   return (
     <div style={{ maxWidth: "100%", overflow: 'auto', position: "relative" }}>
-      <table style={{ minWidth: "max-content" }}>
+      <Table style={{ minWidth: "max-content" }} {...componentProps?.table}>
 
-        <thead>
+        <TableHead {...componentProps?.tableHead}>
           {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
+            <TableRow key={headerGroup.id} {...componentProps?.tableHeaderRow?.({ headerGroup })}>
               {headerGroup.headers.map(header => {
                 const isPinnedColumn = header.column.getIsPinned()
                 return (
-                  <th
+                  <TableHeaderCell
                     key={header.id}
                     style={{
                       width: header.getSize(),
@@ -64,22 +73,23 @@ const Table = <TData,>({
                       zIndex: 2,
                       backgroundColor: "black"
                     }}
+                    {...componentProps?.tableHeaderCell?.({ header })}
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
+                  </TableHeaderCell>
                 )
               })}
-            </tr>
+            </TableRow>
           ))}
-        </thead>
+        </TableHead>
 
-        <tbody>
+        <TableBody {...componentProps?.tableBody}>
           {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
+            <TableRow key={row.id} {...componentProps?.tableBodyRow?.({ row })}>
               {row.getVisibleCells().map(cell => {
                 const isPinnedColumn = cell.column.getIsPinned()
                 return (
-                  <td
+                  <TableBodyCell
                     key={cell.id}
                     style={{
                       position: isPinnedColumn ? "sticky" : "static",
@@ -88,16 +98,17 @@ const Table = <TData,>({
                       zIndex: 2,
                       backgroundColor: "black"
                     }}
+                    {...componentProps?.tableBodyCell?.({ cell })}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
+                  </TableBodyCell>
                 )
               })}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
+        </TableBody>
 
-      </table>
+      </Table>
     </div>
   )
 }
