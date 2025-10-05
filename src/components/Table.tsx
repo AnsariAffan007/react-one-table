@@ -14,9 +14,19 @@ const Table = <TData,>({
     getCoreRowModel: getCoreRowModel(),
     columnResizeMode: resizing?.mode,
     initialState: {
-      columnPinning: {
-        left: columnPinning?.left,
-        right: columnPinning?.right
+      ...columnPinning?.initialValue && {
+        columnPinning: {
+          left: columnPinning?.initialValue.left,
+          right: columnPinning?.initialValue.right
+        }
+      }
+    },
+    state: {
+      ...columnPinning?.state && {
+        columnPinning: {
+          left: columnPinning?.state?.left,
+          right: columnPinning?.state?.right
+        }
       }
     }
   })
@@ -30,7 +40,7 @@ const Table = <TData,>({
     Object.values(columnOffsetMapLeft).forEach(val => sumOfAllPreviousValues += val.width)
     columnOffsetMapLeft[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
   })
-  pinnedColumnsRight.forEach(column => {
+  pinnedColumnsRight.reverse().forEach(column => {
     let sumOfAllPreviousValues = 0
     Object.values(columnOffsetMapRight).forEach(val => sumOfAllPreviousValues += val.width)
     columnOffsetMapRight[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }

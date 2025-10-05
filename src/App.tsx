@@ -90,8 +90,10 @@ const App = () => {
       data={rows}
       resizing={{ mode: "onChange" }}
       columnPinning={{
-        left: ["id", "firstName"],
-        right: ["email", "phone"]
+        initialValue: {
+          left: ["id", "firstName"],
+          right: ["email", "phone"]
+        }
       }}
     />
   )

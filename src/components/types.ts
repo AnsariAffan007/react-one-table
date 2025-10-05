@@ -7,7 +7,13 @@ export interface TableTypes<TData> {
     mode: ColumnResizeMode
   },
   columnPinning?: {
-    left?: string[],
-    right?: string[]
+    initialValue: {
+      left?: string[],
+      right?: string[]
+    },
+    state?: {
+      left?: string[],
+      right?: string[]
+    }
   }
 }
