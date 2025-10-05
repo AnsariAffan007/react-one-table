@@ -95,7 +95,7 @@ const App = () => {
           <button
             key={i}
             style={{ backgroundColor: isColumnPinned ? "green" : "white" }}
-            onClick={() => c.id && isColumnPinned ? unPinColumn(c.id, "left") : c.id ? pinColumn(c.id, "left") : ""}
+            onClick={() => c.id && isColumnPinned ? unPinColumn(c.id, "right") : c.id ? pinColumn(c.id, "right") : ""}
           >
             {c.id}
           </button>

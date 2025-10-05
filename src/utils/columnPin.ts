@@ -1,7 +1,10 @@
 import type { Table } from "@tanstack/react-table";
 
 export const getColumnsOffsetMap = <TData,>(table: Table<TData>, pinPosition: "left" | "right") => {
-  const pinnedColumns = table.getAllColumns().filter(column => column.getIsPinned() === pinPosition)
+  const visibleColumns = table
+    .getHeaderGroups()[0].headers
+    .map(header => header.column);
+  const pinnedColumns = visibleColumns.filter(column => column.getIsPinned() === pinPosition)
   if (pinPosition === "right") pinnedColumns.reverse()
   const columnOffsetMap: Record<string, { width: number, offset: number }> = {}
   let sum = 0;
