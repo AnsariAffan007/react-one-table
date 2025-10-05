@@ -1,8 +1,8 @@
 import type { Table } from "@tanstack/react-table";
 
-export const getColumnsOffsetMap = <TData,>(table: Table<TData>, pinDirection: "left" | "right") => {
-  const pinnedColumns = table.getAllColumns().filter(column => column.getIsPinned() === pinDirection)
-  if (pinDirection === "right") pinnedColumns.reverse()
+export const getColumnsOffsetMap = <TData,>(table: Table<TData>, pinPosition: "left" | "right") => {
+  const pinnedColumns = table.getAllColumns().filter(column => column.getIsPinned() === pinPosition)
+  if (pinPosition === "right") pinnedColumns.reverse()
   const columnOffsetMap: Record<string, { width: number, offset: number }> = {}
   pinnedColumns.forEach(column => {
     let sumOfAllPreviousValues = 0
