@@ -1,5 +1,7 @@
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import type { TableTypes } from "./types"
+import { useMemo } from "react"
+import { getColumnsOffsetMap } from "../utils/column-pin"
 
 const Table = <TData,>({
   data,
@@ -31,20 +33,8 @@ const Table = <TData,>({
     }
   })
 
-  const pinnedColumnsLeft = table.getAllColumns().filter(column => column.getIsPinned() === "left")
-  const pinnedColumnsRight = table.getAllColumns().filter(column => column.getIsPinned() === "right")
-  const columnOffsetMapLeft: Record<string, { width: number, offset: number }> = {}
-  const columnOffsetMapRight: Record<string, { width: number, offset: number }> = {}
-  pinnedColumnsLeft.forEach(column => {
-    let sumOfAllPreviousValues = 0
-    Object.values(columnOffsetMapLeft).forEach(val => sumOfAllPreviousValues += val.width)
-    columnOffsetMapLeft[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
-  })
-  pinnedColumnsRight.reverse().forEach(column => {
-    let sumOfAllPreviousValues = 0
-    Object.values(columnOffsetMapRight).forEach(val => sumOfAllPreviousValues += val.width)
-    columnOffsetMapRight[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
-  })
+  const columnOffsetMapLeft = useMemo(() => getColumnsOffsetMap(table, "left"), [table])
+  const columnOffsetMapRight = useMemo(() => getColumnsOffsetMap(table, "right"), [table])
 
   return (
     <div style={{ maxWidth: "100%", overflow: 'auto', position: "relative" }}>
