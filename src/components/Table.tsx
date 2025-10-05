@@ -1,7 +1,7 @@
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import type { TableTypes } from "./types"
 import { useMemo } from "react"
-import { getColumnsOffsetMap } from "../utils/column-pin"
+import { getColumnsOffsetMap } from "../utils/columnPin"
 
 const Table = <TData,>({
   data,
