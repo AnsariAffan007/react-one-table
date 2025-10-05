@@ -1,9 +1,9 @@
 import type { ColumnPinningState } from "@tanstack/react-table"
 import { useCallback, useState } from "react"
 
-const useColumnPin = () => {
+const useColumnPin = (initialState?: ColumnPinningState) => {
 
-  const [columnPins, setColumnPins] = useState<ColumnPinningState>({})
+  const [columnPins, setColumnPins] = useState<ColumnPinningState>(initialState || {})
 
   const pinColumn = useCallback((columnId: string, position: "left" | "right") => {
     setColumnPins(prev => {

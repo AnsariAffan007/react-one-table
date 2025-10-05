@@ -33,8 +33,8 @@ const Table = <TData,>({
     }
   })
 
-  const columnOffsetMapLeft = useMemo(() => getColumnsOffsetMap(table, "left"), [table])
-  const columnOffsetMapRight = useMemo(() => getColumnsOffsetMap(table, "right"), [table])
+  const columnOffsetMapLeft = useMemo(() => getColumnsOffsetMap(table, "left"), [table, columnPinning])
+  const columnOffsetMapRight = useMemo(() => getColumnsOffsetMap(table, "right"), [table, columnPinning])
 
   return (
     <div style={{ maxWidth: "100%", overflow: 'auto', position: "relative" }}>

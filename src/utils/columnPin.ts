@@ -4,10 +4,10 @@ export const getColumnsOffsetMap = <TData,>(table: Table<TData>, pinPosition: "l
   const pinnedColumns = table.getAllColumns().filter(column => column.getIsPinned() === pinPosition)
   if (pinPosition === "right") pinnedColumns.reverse()
   const columnOffsetMap: Record<string, { width: number, offset: number }> = {}
+  let sum = 0;
   pinnedColumns.forEach(column => {
-    let sumOfAllPreviousValues = 0
-    Object.values(columnOffsetMap).forEach(val => sumOfAllPreviousValues += val.width)
-    columnOffsetMap[column.id] = { offset: sumOfAllPreviousValues, width: column.getSize() }
-  })
+    columnOffsetMap[column.id] = { offset: sum, width: column.getSize() };
+    sum += column.getSize();
+  });
   return columnOffsetMap
 }

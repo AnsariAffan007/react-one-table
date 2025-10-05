@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import type { User } from "./types"
 import { createColumnHelper } from "@tanstack/react-table"
 import Table from "./components/Table"
+import useColumnPin from "./hooks/useColumnPin"
 
 const App = () => {
 
@@ -84,18 +85,35 @@ const App = () => {
     })
   ], [columnHelper])
 
+  const { columnPins, pinColumn, unPinColumn } = useColumnPin()
+
   return (
-    <Table
-      columns={columns}
-      data={rows}
-      resizing={{ mode: "onChange" }}
-      columnPinning={{
-        initialValue: {
-          left: ["id", "firstName"],
-          right: ["email", "phone"]
-        }
-      }}
-    />
+    <div>
+      {columns.map((c, i) => {
+        const isColumnPinned = c.id && (columnPins.left?.includes(c.id) || columnPins.right?.includes(c.id))
+        return (
+          <button
+            key={i}
+            style={{ backgroundColor: isColumnPinned ? "green" : "white" }}
+            onClick={() => c.id && isColumnPinned ? unPinColumn(c.id, "left") : c.id ? pinColumn(c.id, "left") : ""}
+          >
+            {c.id}
+          </button>
+        )
+      })}
+      <Table
+        columns={columns}
+        data={rows}
+        resizing={{ mode: "onChange" }}
+        columnPinning={{
+          initialValue: {
+            left: ["id", "firstName"],
+            right: ["email", "phone"]
+          },
+          state: columnPins
+        }}
+      />
+    </div>
   )
 }
 
